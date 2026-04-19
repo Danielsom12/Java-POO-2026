@@ -60,6 +60,15 @@ public class Tela extends JFrame {
 
         txtDigiteOValor = new JTextField();
         txtDigiteOValor.setBounds(211, 103, 178, 20);
+        lblConversor.setBounds(174, 11, 334, 46);
+        contentPane.add(lblConversor);
+
+        JLabel lblValorInserido = new JLabel("Digite o Valor Para Converter:");
+        lblValorInserido.setBounds(22, 102, 179, 22);
+        contentPane.add(lblValorInserido);
+
+        txtDigiteOValor = new JTextField();
+        txtDigiteOValor.setBounds(199, 103, 178, 20);
         contentPane.add(txtDigiteOValor);
 
         JLabel lblSelecionarEscala = new JLabel("Escolha a Escala Origem:");
@@ -73,11 +82,22 @@ public class Tela extends JFrame {
 
         JLabel lblSelecionarUnidade = new JLabel("Escolha a Unidade (A, Ω, V, W):");
         lblSelecionarUnidade.setBounds(12, 193, 260, 14);
+
+        boxEscalaOrigem.setBounds(199, 149, 100, 22);
+        contentPane.add(boxEscalaOrigem);
+
+        JLabel lblSelecionarUnidade = new JLabel("Escolha a Unidade (A, Ω, V, W):");
+        lblSelecionarUnidade.setBounds(22, 193, 179, 14);
+
         contentPane.add(lblSelecionarUnidade);
 
         String[] unidades = {"A", "Ω", "V", "W"};
         boxUnidade = new JComboBox<>(unidades);
+
         boxUnidade.setBounds(211, 189, 100, 22);
+
+        boxUnidade.setBounds(199, 189, 100, 22);
+
         contentPane.add(boxUnidade);
 
         JLabel lblSelecionarDestino = new JLabel("Escala que deseja Obter:");
@@ -85,7 +105,11 @@ public class Tela extends JFrame {
         contentPane.add(lblSelecionarDestino);
 
         boxEscalaDestino = new JComboBox<>(escalas);
+
         boxEscalaDestino.setBounds(211, 229, 100, 22);
+
+        boxEscalaDestino.setBounds(199, 229, 100, 22);
+
         contentPane.add(boxEscalaDestino);
 
        
@@ -96,6 +120,10 @@ public class Tela extends JFrame {
         contentPane.add(textAreaResultadoConversao);
 
         JButton btnConverter = new JButton("Converter");
+
+
+        btnConverter.setFont(new Font("Tahoma", Font.BOLD, 12));
+
         btnConverter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
               
@@ -104,8 +132,13 @@ public class Tela extends JFrame {
         btnConverter.setBounds(35, 295, 98, 24);
         contentPane.add(btnConverter);
 
+
         JButton btnMudarTela = new JButton("LEI DE OHM");
         btnMudarTela.setFont(new Font("Dubai", Font.BOLD, 15));
+
+        JButton btnMudarTela = new JButton("Lei de Ohm");
+        btnMudarTela.setFont(new Font("Tahoma", Font.BOLD, 12));
+
         btnMudarTela.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
@@ -121,4 +154,8 @@ public class Tela extends JFrame {
     
 
  
+
     
+
+    
+

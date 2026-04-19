@@ -49,22 +49,38 @@ public class TelaLeiOhm extends JFrame {
         lblCalcularLeiOhm.setBounds(160, 20, 334, 46);
         contentPane.add(lblCalcularLeiOhm);
         
+
         JLabel lblValor1 = new JLabel("Digite o Valor:");
+
+        JLabel lblValor1 = new JLabel("Digite o 1° Valor:");
+
         lblValor1.setBounds(160, 125, 94, 14);
         contentPane.add(lblValor1);
         
         String[] unidades = {"Tensão (V)", "Corrente (A)", "Resistência (Ω)", "Potência (W)"};
         
         JComboBox<String> boxEscolhaUnidadeMedida1 = new JComboBox<>(unidades);
+
         boxEscolhaUnidadeMedida1.setBounds(368, 162, 176, 22);
         contentPane.add(boxEscolhaUnidadeMedida1);
         
         txtValorDigitado1 = new JTextField();
         txtValorDigitado1.setBounds(256, 122, 94, 20);
+
+        boxEscolhaUnidadeMedida1.setBounds(323, 162, 176, 22);
+        contentPane.add(boxEscolhaUnidadeMedida1);
+        
+        txtValorDigitado1 = new JTextField();
+        txtValorDigitado1.setBounds(323, 122, 94, 20);
+
         contentPane.add(txtValorDigitado1);
         txtValorDigitado1.setColumns(10);
         
         JButton btnVoltar = new JButton("Voltar");
+
+
+        btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 12));
+
         btnVoltar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -74,11 +90,16 @@ public class TelaLeiOhm extends JFrame {
         contentPane.add(btnVoltar);
         
         JLabel lblValor2 = new JLabel("Digite o 2° Valor:");
+
         lblValor2.setBounds(160, 226, 94, 14);
+
+        lblValor2.setBounds(160, 211, 94, 14);
+
         contentPane.add(lblValor2);
         
         txtValorDigitado2 = new JTextField();
         txtValorDigitado2.setColumns(10);
+
         txtValorDigitado2.setBounds(267, 223, 94, 20);
         contentPane.add(txtValorDigitado2);
         
@@ -92,6 +113,21 @@ public class TelaLeiOhm extends JFrame {
         
         JLabel lblEscolhaUnidadeMedida2 = new JLabel("Escolha a Unidade de Medida:");
         lblEscolhaUnidadeMedida2.setBounds(160, 273, 201, 14);
+
+        txtValorDigitado2.setBounds(323, 208, 94, 20);
+        contentPane.add(txtValorDigitado2);
+        
+        JComboBox<String> boxEscolhaUnidadeMedida2 = new JComboBox<>(unidades);
+        boxEscolhaUnidadeMedida2.setBounds(323, 248, 176, 22);
+        contentPane.add(boxEscolhaUnidadeMedida2);
+        
+        JLabel lblEscolhaUnidadeMedida1 = new JLabel("Escolha a Unidade de Medida:");
+        lblEscolhaUnidadeMedida1.setBounds(160, 166, 176, 14);
+        contentPane.add(lblEscolhaUnidadeMedida1);
+        
+        JLabel lblEscolhaUnidadeMedida2 = new JLabel("Escolha a Unidade de Medida:");
+        lblEscolhaUnidadeMedida2.setBounds(160, 252, 167, 14);
+
         contentPane.add(lblEscolhaUnidadeMedida2);
         
         JButton btnCalcular = new JButton("Calcular");
