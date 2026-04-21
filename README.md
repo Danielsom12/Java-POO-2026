@@ -13,8 +13,6 @@ Segundo passo: O sistema pega esse valor base recém-calculado e o divide pelo f
 
 Essa estratégia garante que o sistema consiga converter de qualquer escala para qualquer outra utilizando apenas uma única equação matemática universal.
 
-Integração entre a Tela e a Lógica de Cálculo
-Para conectar as escolhas que o usuário faz na tela com a matemática, o sistema atua como uma "fábrica de objetos". Quando o usuário clica em converter, o programa lê o texto selecionado nas caixas de seleção (como a palavra "Kilo"). Através de um método específico de seleção, o sistema avalia esse texto e instancia no mesmo instante o objeto matemático correspondente. O sistema cria um objeto para representar a origem (guardando o valor digitado) e um objeto para representar o destino. Na criação do objeto de destino, o valor numérico passado é irrelevante (utiliza-se o zero), pois a matemática final só se importa com o fator multiplicador que aquele objeto carrega em seu método "exibir".
 
 Segurança e Tratamento de Exceções
 Como o sistema depende da entrada de dados do usuário através de um campo de texto, existe o risco de o usuário digitar letras ou caracteres especiais em vez de números. Para evitar que o sistema sofra um colapso e feche abruptamente, foi implementada uma estrutura de proteção chamada de try/catch. O bloco "try" tenta converter o texto digitado em um número decimal. Se a conversão falhar devido a uma entrada inválida, o sistema lança uma exceção de formatação. O bloco "catch" captura essa exceção imediatamente antes que ela quebre o programa, interrompe o cálculo e exibe uma janela de alerta amigável informando ao usuário que apenas números são aceitos.
