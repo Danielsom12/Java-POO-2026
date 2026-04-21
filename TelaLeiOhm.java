@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -21,6 +22,9 @@ public class TelaLeiOhm extends JFrame {
     private JPanel contentPane;
     private JTextField txtValorDigitado1;
     private JTextField txtValorDigitado2;
+    private JComboBox<String> boxEscolhaUnidadeMedida1;
+    private JComboBox<String> boxEscolhaUnidadeMedida2;
+    private JTextArea txtAreaResultadoLeiOhm;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -49,96 +53,129 @@ public class TelaLeiOhm extends JFrame {
         lblCalcularLeiOhm.setBounds(160, 20, 334, 46);
         contentPane.add(lblCalcularLeiOhm);
         
-
-        JLabel lblValor1 = new JLabel("Digite o Valor:");
-
         JLabel lblValor1 = new JLabel("Digite o 1° Valor:");
-
-        lblValor1.setBounds(160, 125, 94, 14);
+        lblValor1.setBounds(160, 122, 120, 20);
         contentPane.add(lblValor1);
-        
-        String[] unidades = {"Tensão (V)", "Corrente (A)", "Resistência (Ω)", "Potência (W)"};
-        
-        JComboBox<String> boxEscolhaUnidadeMedida1 = new JComboBox<>(unidades);
-
-        boxEscolhaUnidadeMedida1.setBounds(368, 162, 176, 22);
-        contentPane.add(boxEscolhaUnidadeMedida1);
-        
-        txtValorDigitado1 = new JTextField();
-        txtValorDigitado1.setBounds(256, 122, 94, 20);
-
-        boxEscolhaUnidadeMedida1.setBounds(323, 162, 176, 22);
-        contentPane.add(boxEscolhaUnidadeMedida1);
         
         txtValorDigitado1 = new JTextField();
         txtValorDigitado1.setBounds(323, 122, 94, 20);
-
         contentPane.add(txtValorDigitado1);
-        txtValorDigitado1.setColumns(10);
         
+        JLabel lblEscolhaUnidadeMedida1 = new JLabel("Escolha a Unidade de Medida:");
+        lblEscolhaUnidadeMedida1.setBounds(160, 166, 200, 14);
+        contentPane.add(lblEscolhaUnidadeMedida1);
+
+        String[] unidades = {"Tensão (V)", "Corrente (A)", "Resistência (Ω)", "Potência (W)"};
+        boxEscolhaUnidadeMedida1 = new JComboBox<>(unidades);
+        boxEscolhaUnidadeMedida1.setBounds(323, 162, 176, 22);
+        contentPane.add(boxEscolhaUnidadeMedida1);
+        
+        JLabel lblValor2 = new JLabel("Digite o 2° Valor:");
+        lblValor2.setBounds(160, 208, 120, 20);
+        contentPane.add(lblValor2);
+
+        txtValorDigitado2 = new JTextField();
+        txtValorDigitado2.setBounds(323, 208, 94, 20);
+        contentPane.add(txtValorDigitado2);
+
+        JLabel lblEscolhaUnidadeMedida2 = new JLabel("Escolha a Unidade de Medida:");
+        lblEscolhaUnidadeMedida2.setBounds(160, 252, 200, 14);
+        contentPane.add(lblEscolhaUnidadeMedida2);
+        
+        boxEscolhaUnidadeMedida2 = new JComboBox<>(unidades);
+        boxEscolhaUnidadeMedida2.setBounds(323, 248, 176, 22);
+        contentPane.add(boxEscolhaUnidadeMedida2);
+        
+        txtAreaResultadoLeiOhm = new JTextArea();
+        txtAreaResultadoLeiOhm.setBackground(new Color(245, 245, 220));
+        txtAreaResultadoLeiOhm.setEditable(false);
+        txtAreaResultadoLeiOhm.setFont(new Font("Dialog", Font.BOLD, 14));
+        txtAreaResultadoLeiOhm.setBounds(160, 327, 396, 82);
+        contentPane.add(txtAreaResultadoLeiOhm);
+
+        JButton btnCalcular = new JButton("Calcular");
+        btnCalcular.setFont(new Font("Tahoma", Font.BOLD, 12));
+        btnCalcular.setBounds(289, 440, 139, 23);
+        btnCalcular.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                calcularLeiOhm();
+            }
+        });
+        contentPane.add(btnCalcular);
+
         JButton btnVoltar = new JButton("Voltar");
-
-
         btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 12));
-
+        btnVoltar.setBounds(178, 440, 89, 23);
         btnVoltar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
-        btnVoltar.setBounds(178, 440, 89, 23);
         contentPane.add(btnVoltar);
-        
-        JLabel lblValor2 = new JLabel("Digite o 2° Valor:");
+    }
 
-        lblValor2.setBounds(160, 226, 94, 14);
+    private void calcularLeiOhm() {
+        try {
+            double v1 = Double.parseDouble(txtValorDigitado1.getText());
+            double v2 = Double.parseDouble(txtValorDigitado2.getText());
 
-        lblValor2.setBounds(160, 211, 94, 14);
+            if (v1 < 0 || v2 < 0) {
+                JOptionPane.showMessageDialog(this, "Erro: Insira apenas valores positivos.");
+                return;
+            }
 
-        contentPane.add(lblValor2);
-        
-        txtValorDigitado2 = new JTextField();
-        txtValorDigitado2.setColumns(10);
+            String u1 = (String) boxEscolhaUnidadeMedida1.getSelectedItem();
+            String u2 = (String) boxEscolhaUnidadeMedida2.getSelectedItem();
 
-        txtValorDigitado2.setBounds(267, 223, 94, 20);
-        contentPane.add(txtValorDigitado2);
-        
-        JComboBox<String> boxEscolhaUnidadeMedida2 = new JComboBox<>(unidades);
-        boxEscolhaUnidadeMedida2.setBounds(368, 269, 176, 22);
-        contentPane.add(boxEscolhaUnidadeMedida2);
-        
-        JLabel lblEscolhaUnidadeMedida1 = new JLabel("Escolha a Unidade de Medida:");
-        lblEscolhaUnidadeMedida1.setBounds(160, 166, 201, 14);
-        contentPane.add(lblEscolhaUnidadeMedida1);
-        
-        JLabel lblEscolhaUnidadeMedida2 = new JLabel("Escolha a Unidade de Medida:");
-        lblEscolhaUnidadeMedida2.setBounds(160, 273, 201, 14);
+            if (u1.equals(u2)) {
+                JOptionPane.showMessageDialog(this, "Erro: Selecione grandezas diferentes.");
+                return;
+            }
 
-        txtValorDigitado2.setBounds(323, 208, 94, 20);
-        contentPane.add(txtValorDigitado2);
-        
-        JComboBox<String> boxEscolhaUnidadeMedida2 = new JComboBox<>(unidades);
-        boxEscolhaUnidadeMedida2.setBounds(323, 248, 176, 22);
-        contentPane.add(boxEscolhaUnidadeMedida2);
-        
-        JLabel lblEscolhaUnidadeMedida1 = new JLabel("Escolha a Unidade de Medida:");
-        lblEscolhaUnidadeMedida1.setBounds(160, 166, 176, 14);
-        contentPane.add(lblEscolhaUnidadeMedida1);
-        
-        JLabel lblEscolhaUnidadeMedida2 = new JLabel("Escolha a Unidade de Medida:");
-        lblEscolhaUnidadeMedida2.setBounds(160, 252, 167, 14);
+            double tensao = 0, corrente = 0, resistencia = 0, potencia = 0;
+            boolean tSet = false, cSet = false, rSet = false, pSet = false;
 
-        contentPane.add(lblEscolhaUnidadeMedida2);
-        
-        JButton btnCalcular = new JButton("Calcular");
-        btnCalcular.setFont(new Font("Tahoma", Font.BOLD, 12));
-        btnCalcular.setBounds(289, 440, 139, 23);
-        contentPane.add(btnCalcular);
-        
-        JTextArea txtAreaResultadoLeiOhm = new JTextArea();
-        txtAreaResultadoLeiOhm.setBackground(new Color(123, 172, 170));
-        txtAreaResultadoLeiOhm.setEditable(false);
-        txtAreaResultadoLeiOhm.setBounds(160, 327, 396, 82);
-        contentPane.add(txtAreaResultadoLeiOhm);
+            // Atribuir valores conhecidos
+            if (u1.contains("V")) { tensao = v1; tSet = true; }
+            else if (u1.contains("A")) { corrente = v1; cSet = true; }
+            else if (u1.contains("Ω")) { resistencia = v1; rSet = true; }
+            else if (u1.contains("W")) { potencia = v1; pSet = true; }
+
+            if (u2.contains("V")) { tensao = v2; tSet = true; }
+            else if (u2.contains("A")) { corrente = v2; cSet = true; }
+            else if (u2.contains("Ω")) { resistencia = v2; rSet = true; }
+            else if (u2.contains("W")) { potencia = v2; pSet = true; }
+
+            // Lógica de cálculo (Lei de Ohm: V = R * I, P = V * I)
+            if (tSet && cSet) {
+                resistencia = tensao / corrente;
+                potencia = tensao * corrente;
+            } else if (tSet && rSet) {
+                corrente = tensao / resistencia;
+                potencia = (tensao * tensao) / resistencia;
+            } else if (cSet && rSet) {
+                tensao = corrente * resistencia;
+                potencia = (corrente * corrente) * resistencia;
+            } else if (pSet && tSet) {
+                corrente = potencia / tensao;
+                resistencia = (tensao * tensao) / potencia;
+            } else if (pSet && cSet) {
+                tensao = potencia / corrente;
+                resistencia = potencia / (corrente * corrente);
+            } else if (pSet && rSet) {
+                tensao = Math.sqrt(potencia * resistencia);
+                corrente = Math.sqrt(potencia / resistencia);
+            }
+
+            txtAreaResultadoLeiOhm.setText(String.format(
+                "Resultados:\nTensão: %.4f V\nCorrente: %.4f A\nResistência: %.4f Ω\nPotência: %.4f W",
+                tensao, corrente, resistencia, potencia
+            ));
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Erro: Entrada inválida. Use apenas números.");
+        } catch (ArithmeticException ex) {
+            JOptionPane.showMessageDialog(this, "Erro: Divisão por zero.");
+        }
     }
 }
