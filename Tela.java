@@ -22,7 +22,7 @@ public class Tela extends JFrame {
     private JPanel contentPane;
     private JTextField txtDigiteOValor; //onde o usuário digita o valor;
     private JComboBox<String> boxEscalaOrigem;//seleção de escala do número digitado por ele
-    private JComboBox<String> boxUnidade;//só escolhe a unidade, não estou conseguindo colocar a unidade escolhida no resultado.
+    private JComboBox<String> boxUnidade;//só escolhe a unidade, ela vai aparecer no resultado.
     private JComboBox<String> boxEscalaDestino;//seleção da escala que ele quer chegar
     private JTextArea textAreaResultadoConversao;//onde vai aparecer o resultado
 
@@ -49,9 +49,9 @@ public class Tela extends JFrame {
 
         // Título
         JLabel lblConversor = new JLabel("CONVERSOR");
+        lblConversor.setBounds(180, 23, 334, 39);
         lblConversor.setFont(new Font("Yu Gothic UI", Font.BOLD | Font.ITALIC, 28));
         lblConversor.setHorizontalAlignment(SwingConstants.CENTER);
-        lblConversor.setBounds(180, 23, 334, 39);
         contentPane.add(lblConversor);
 
         // Valor de Entrada
@@ -70,8 +70,8 @@ public class Tela extends JFrame {
 
         String[] escalas = {"Mega", "Kilo", "Mili", "Micro"};
         boxEscalaOrigem = new JComboBox<>(escalas);
-        boxEscalaOrigem.setBackground(new Color(255, 255, 255));
         boxEscalaOrigem.setBounds(264, 171, 179, 24);
+        boxEscalaOrigem.setBackground(new Color(255, 255, 255));
         contentPane.add(boxEscalaOrigem);
 
         // Unidade
@@ -81,8 +81,8 @@ public class Tela extends JFrame {
 
         String[] unidades = {"A", "Ω", "V", "W"};
         boxUnidade = new JComboBox<>(unidades);
-        boxUnidade.setBackground(new Color(255, 255, 255));
         boxUnidade.setBounds(264, 241, 179, 24);
+        boxUnidade.setBackground(new Color(255, 255, 255));
         contentPane.add(boxUnidade);
 
         // Escala Destino
@@ -91,23 +91,23 @@ public class Tela extends JFrame {
         contentPane.add(lblSelecionarDestino);
 
         boxEscalaDestino = new JComboBox<>(escalas);
-        boxEscalaDestino.setBackground(new Color(255, 255, 255));
         boxEscalaDestino.setBounds(264, 311, 179, 22);
+        boxEscalaDestino.setBackground(new Color(255, 255, 255));
         contentPane.add(boxEscalaDestino);
 
         // Resultado
         textAreaResultadoConversao = new JTextArea();
+        textAreaResultadoConversao.setBounds(158, 381, 354, 61);
         textAreaResultadoConversao.setFont(new Font("Dialog", Font.BOLD, 20));
         textAreaResultadoConversao.setBackground(new Color(245, 245, 220));
         textAreaResultadoConversao.setEditable(false);
-        textAreaResultadoConversao.setBounds(158, 381, 354, 61);
         contentPane.add(textAreaResultadoConversao);
 
         // Botão Converter
         JButton btnConverter = new JButton("Converter");
+        btnConverter.setBounds(158, 345, 171, 24);
         btnConverter.setBackground(new Color(255, 255, 255));
         btnConverter.setFont(new Font("Tahoma", Font.BOLD, 12));
-        btnConverter.setBounds(158, 345, 171, 24);
         
 
         btnConverter.addActionListener(new ActionListener() {
@@ -122,18 +122,19 @@ public class Tela extends JFrame {
 
                     String escOrigem = (String) boxEscalaOrigem.getSelectedItem();//pega a escala de origem; o (String) é um casting, estou dizendo para o java que é um str
                     String escDestino = (String) boxEscalaDestino.getSelectedItem();//pega a escala desejada
+                    String escUnidade = (String) boxUnidade.getSelectedItem();
 
                     Conversor objOrigem = selecionarEscala(escOrigem, valorDigitado); //pega o que o usuário escolheu e cria o objeto correto, new Escala(valorDigitado)
-                    Conversor objDestino = selecionarEscala(escDestino, 0);//cria o obj na escala final como zero já que ele não precisa do valor, só do fator já que ele precisa saber a conta que o destilo usa (tipo vezes 1000) e n~ao o nome string
+                    Conversor objDestino = selecionarEscala(escDestino, 0);//cria o obj na escala final como zero já que o construtor exige um double e ele não precisa do valor, só do fator já que ele precisa saber a conta que o destilo usa (tipo vezes 1000) e n~ao o nome string
 
-                    double resultado = objOrigem.converter(objDestino);
+                    double resultado = objOrigem.converter(objDestino);//na classe conversor ele é chamado de destino 
 
-                    String resultadoFormatado = String.format("%.f", resultado); //se deixar 4 casas decimais vai "dar" zero então aumentei para 10, tem que mudar no doc
-                    textAreaResultadoConversao.setText("Resultado: " + resultadoFormatado);
+                    String resultadoFormatado = String.format("%.8f", resultado); //se deixar 4 casas decimais vai "dar" zero então aumentei para 10, tem que mudar no doc
+                    textAreaResultadoConversao.setText("Resultado: " + resultadoFormatado + escUnidade);
                     
-                    System.out.println("Origem fator: " + objOrigem.exibir());
-                    System.out.println("Destino fator: " + objDestino.exibir());
-                    System.out.println("Valor: " + objOrigem.getValorInserido());
+                    //System.out.println("Origem fator: " + objOrigem.exibir());
+                    //System.out.println("Destino fator: " + objDestino.exibir());
+                    //System.out.println("Valor: " + objOrigem.getValorInserido());
 
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Erro: Entrada inválida. Use apenas números."); //como usamos o parsedouble ali em cima, o JAVA não consegue converter se salva letra ou outro caracere, aí essa biblioteca JOPtionPane tem esse método de tratamento de erro
@@ -145,9 +146,9 @@ public class Tela extends JFrame {
 
         // Botão Mudar Tela
         JButton btnMudarTela = new JButton("Lei de Ohm");
+        btnMudarTela.setBounds(341, 345, 171, 24);
         btnMudarTela.setBackground(new Color(255, 255, 255));
         btnMudarTela.setFont(new Font("Tahoma", Font.BOLD, 12));
-        btnMudarTela.setBounds(341, 345, 171, 23);
         btnMudarTela.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 TelaLeiOhm telaOhm = new TelaLeiOhm();
@@ -155,12 +156,12 @@ public class Tela extends JFrame {
             }
         });
         contentPane.add(btnMudarTela);
-    }
-    private Conversor selecionarEscala(String nome, double valor) { //aqui é o ponto central do sistema, com base no que estiver selecionado na combobox o cálculo será feito a partir disso
-        if (nome.equals("Mega")) return new Mega(valor);
-        if (nome.equals("Kilo")) return new Kilo(valor);
-        if (nome.equals("Mili")) return new Mili(valor);
-        if (nome.equals("Micro")) return new Micro(valor);
-        return new Conversor(valor); 
+    }//aqui é o ponto central do sistema, com base no que estiver selecionado na combobox o cálculo será feito a partir disso
+    private Conversor selecionarEscala(String escOrigem, double valorDigitado) {
+        if (escOrigem.equals("Mega")) return new Mega(valorDigitado); 
+        if (escOrigem.equals("Kilo")) return new Kilo(valorDigitado);
+        if (escOrigem.equals("Mili")) return new Mili(valorDigitado);
+        if (escOrigem.equals("Micro")) return new Micro(valorDigitado); //através desse construtor fica new Micro (0)
+        return new Conversor(valorDigitado); 
     }
 }

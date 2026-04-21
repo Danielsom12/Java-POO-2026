@@ -16,8 +16,8 @@ public class Conversor {
     	this.valorInserido = valorInserido;
     }
     
-	public void selecionarGrandeza() { }
-    public void selecionarEscala() { }
+	//public void selecionarGrandeza() { } isso aqui foi feito em Tela.java
+    //public void selecionarEscala() { } isso aqui foi feito em Tela.java
     
     public double converter(Conversor destino) { //converte para a unidade base e converte para a unidade de destino (com base nas combobox do jframe)
     	double valorBase = this.getValorInserido() * this.exibir(); 
