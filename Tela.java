@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JOptionPane; //importei isso aqui para poder criar aqueles modais de erro
+import java.text.DecimalFormat;//importei isso aqui para os números aparecerem em formato decimal.
 
 public class Tela extends JFrame {
 
@@ -129,7 +130,8 @@ public class Tela extends JFrame {
 
                     double resultado = objOrigem.converter(objDestino);//na classe conversor ele é chamado de destino 
 
-                    String resultadoFormatado = String.format("%.8f", resultado); //se deixar 4 casas decimais vai "dar" zero então aumentei para 10, tem que mudar no doc
+                    DecimalFormat df = new DecimalFormat("0.##########"); // zero o # só mostra número se precisar e o ponto é o separador. As # mostram que é até 6 casas, mas sem encher de zero
+                    String resultadoFormatado = df.format(resultado);
                     textAreaResultadoConversao.setText("Resultado: " + resultadoFormatado + escUnidade);
                     
                     //System.out.println("Origem fator: " + objOrigem.exibir());
