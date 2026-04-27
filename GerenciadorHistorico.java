@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Gerenciador de histórico usando Singleton para manter a mesma instância
-public class HistoricoManager {
-    private static HistoricoManager instance;
+public class GerenciadorHistorico {
+    private static GerenciadorHistorico instance;
     private List<String> registros = new ArrayList<>();
     private List<Runnable> listeners = new ArrayList<>();
 
-    private HistoricoManager() {}
+    private GerenciadorHistorico() {}
 
-    public static HistoricoManager getInstance() {
-        if (instance == null) instance = new HistoricoManager();
+    public static GerenciadorHistorico getInstance() {
+        if (instance == null) instance = new GerenciadorHistorico();
         return instance;
     }
 

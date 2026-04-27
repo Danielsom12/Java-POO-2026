@@ -139,12 +139,12 @@ public class Tela extends JFrame {
             	    java.text.DecimalFormat df = new java.text.DecimalFormat("0.##########");
             	    String resultadoFormatado = df.format(resultado);
 
-            	    textAreaResultadoConversao.setText("Resultado: " + resultadoFormatado + " " + escUnidade);
+            	    textAreaResultadoConversao.setText("Resultado: " + resultadoFormatado + " " + escDestino + " " + escUnidade);
 
             	    // Registrando no Histórico
             	    String hora = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
-            	    String registro = String.format("[%s] %s %s = %s %s", hora, valorDigitado, escOrigem, resultadoFormatado, escUnidade);
-            	    HistoricoManager.getInstance().adicionar(registro);
+            	    String registro = String.format("[%s] %s %s = %s %s %s", hora, valorDigitado, escOrigem, resultadoFormatado,escDestino ,escUnidade);
+            	    GerenciadorHistorico.getInstance().adicionar(registro);
 
             	} catch (NumberFormatException ex) {
             	    JOptionPane.showMessageDialog(null, "Erro: Entrada inválida. Use apenas números.");

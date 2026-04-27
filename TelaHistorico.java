@@ -21,7 +21,7 @@ public class TelaHistorico extends JFrame {
         add(new JScrollPane(table), BorderLayout.CENTER);
 
         // Atualiza a tabela sempre que o Manager sofrer alteração
-        HistoricoManager.getInstance().addChangeListener(this::atualizarTabela);
+        GerenciadorHistorico.getInstance().addChangeListener(this::atualizarTabela);
 
         JPanel painelBotoes = new JPanel();
         JButton btnExcluir = new JButton("Remover");
@@ -31,11 +31,11 @@ public class TelaHistorico extends JFrame {
         // Ação para excluir item selecionado
         btnExcluir.addActionListener(e -> {
             int row = table.getSelectedRow();
-            if (row != -1) HistoricoManager.getInstance().remover(row);
+            if (row != -1) GerenciadorHistorico.getInstance().remover(row);
         });
 
         // Ação para limpar tudo
-        btnLimpar.addActionListener(e -> HistoricoManager.getInstance().limpar());
+        btnLimpar.addActionListener(e -> GerenciadorHistorico.getInstance().limpar());
 
         // Ação para Salvar o arquivo TXT
         btnSalvar.addActionListener(e -> {
@@ -50,7 +50,7 @@ public class TelaHistorico extends JFrame {
                 }
                 
                 try (PrintWriter writer = new PrintWriter(arquivo)) {
-                    for (String registro : HistoricoManager.getInstance().getRegistros()) {
+                    for (String registro : GerenciadorHistorico.getInstance().getRegistros()) {
                         writer.println(registro);
                     }
                     JOptionPane.showMessageDialog(this, "Histórico salvo com sucesso!");
@@ -72,7 +72,7 @@ public class TelaHistorico extends JFrame {
     private void atualizarTabela() {
         SwingUtilities.invokeLater(() -> {
             model.setRowCount(0);
-            for (String item : HistoricoManager.getInstance().getRegistros()) {
+            for (String item : GerenciadorHistorico.getInstance().getRegistros()) {
                 model.addRow(new Object[]{item});
             }
         });
