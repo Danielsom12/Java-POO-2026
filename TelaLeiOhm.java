@@ -15,10 +15,18 @@ import javax.swing.JTextArea;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class TelaLeiOhm extends JFrame {
 
     private static final long serialVersionUID = 1L;
+    
+    // Paleta de Cores (Sincronizada com a classe Tela)
+    private final Color COR_FUNDO = new Color(235, 227, 165);       // #EBE3A5
+    private final Color COR_CAMPOS = new Color(242, 245, 142);      // #F2F58E
+    private final Color COR_BOTAO_PRINCIPAL = new Color(245, 204, 69); // #F5CC45
+    private final Color COR_BOTAO_SECUNDARIO = new Color(235, 182, 87); // #EBB657
+
     private JPanel contentPane;
     private JTextField txtValorDigitado1;
     private JTextField txtValorDigitado2;
@@ -40,9 +48,10 @@ public class TelaLeiOhm extends JFrame {
     public TelaLeiOhm() {
         setTitle("CÁLCULO LEI DE OHM");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 670, 551);
+        setBounds(100, 100, 758, 606);
+        
         contentPane = new JPanel();
-        contentPane.setBackground(new Color(123, 172, 171));
+        contentPane.setBackground(COR_FUNDO); // Aplicado cor de fundo
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
@@ -54,40 +63,44 @@ public class TelaLeiOhm extends JFrame {
         contentPane.add(lblCalcularLeiOhm);
         
         JLabel lblValor1 = new JLabel("Digite o 1° Valor:");
-        lblValor1.setBounds(160, 122, 120, 20);
+        lblValor1.setBounds(170, 122, 120, 20);
         contentPane.add(lblValor1);
         
         txtValorDigitado1 = new JTextField();
-        txtValorDigitado1.setBounds(323, 122, 94, 20);
+        txtValorDigitado1.setBounds(388, 122, 94, 20);
+        txtValorDigitado1.setBackground(COR_CAMPOS); // Aplicado cor de campo
         contentPane.add(txtValorDigitado1);
         
         JLabel lblEscolhaUnidadeMedida1 = new JLabel("Escolha a Unidade de Medida:");
-        lblEscolhaUnidadeMedida1.setBounds(160, 166, 200, 14);
+        lblEscolhaUnidadeMedida1.setBounds(170, 166, 200, 14);
         contentPane.add(lblEscolhaUnidadeMedida1);
 
         String[] unidades = {"Tensão (V)", "Corrente (A)", "Resistência (Ω)", "Potência (W)"};
         boxEscolhaUnidadeMedida1 = new JComboBox<>(unidades);
-        boxEscolhaUnidadeMedida1.setBounds(323, 162, 176, 22);
+        boxEscolhaUnidadeMedida1.setBounds(388, 162, 176, 22);
+        boxEscolhaUnidadeMedida1.setBackground(COR_CAMPOS); // Aplicado cor de campo
         contentPane.add(boxEscolhaUnidadeMedida1);
         
         JLabel lblValor2 = new JLabel("Digite o 2° Valor:");
-        lblValor2.setBounds(160, 208, 120, 20);
+        lblValor2.setBounds(170, 208, 120, 20);
         contentPane.add(lblValor2);
 
         txtValorDigitado2 = new JTextField();
-        txtValorDigitado2.setBounds(323, 208, 94, 20);
+        txtValorDigitado2.setBounds(388, 208, 94, 20);
+        txtValorDigitado2.setBackground(COR_CAMPOS); // Aplicado cor de campo
         contentPane.add(txtValorDigitado2);
 
         JLabel lblEscolhaUnidadeMedida2 = new JLabel("Escolha a Unidade de Medida:");
-        lblEscolhaUnidadeMedida2.setBounds(160, 252, 200, 14);
+        lblEscolhaUnidadeMedida2.setBounds(170, 252, 200, 14);
         contentPane.add(lblEscolhaUnidadeMedida2);
         
         boxEscolhaUnidadeMedida2 = new JComboBox<>(unidades);
-        boxEscolhaUnidadeMedida2.setBounds(323, 248, 176, 22);
+        boxEscolhaUnidadeMedida2.setBounds(388, 248, 176, 22);
+        boxEscolhaUnidadeMedida2.setBackground(COR_CAMPOS); // Aplicado cor de campo
         contentPane.add(boxEscolhaUnidadeMedida2);
         
         txtAreaResultadoLeiOhm = new JTextArea();
-        txtAreaResultadoLeiOhm.setBackground(new Color(245, 245, 220));
+        txtAreaResultadoLeiOhm.setBackground(COR_CAMPOS); // Aplicado cor de campo
         txtAreaResultadoLeiOhm.setEditable(false);
         txtAreaResultadoLeiOhm.setFont(new Font("Dialog", Font.BOLD, 14));
         txtAreaResultadoLeiOhm.setBounds(160, 327, 396, 82);
@@ -96,22 +109,21 @@ public class TelaLeiOhm extends JFrame {
         JButton btnCalcular = new JButton("Calcular");
         btnCalcular.setFont(new Font("Tahoma", Font.BOLD, 12));
         btnCalcular.setBounds(289, 440, 139, 23);
-        btnCalcular.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                calcularLeiOhm();
-            }
-        });
+        btnCalcular.setBackground(COR_BOTAO_PRINCIPAL); // Aplicado cor de botão principal
+        btnCalcular.addActionListener(e -> calcularLeiOhm());
         contentPane.add(btnCalcular);
 
         JButton btnVoltar = new JButton("Voltar");
         btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 12));
         btnVoltar.setBounds(178, 440, 89, 23);
-        btnVoltar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        btnVoltar.setBackground(COR_BOTAO_SECUNDARIO); // Aplicado cor de botão secundário
+        btnVoltar.addActionListener(e -> dispose());
         contentPane.add(btnVoltar);
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon("/home/dan/Área de trabalho/Gemini_Generated_Image_xq8jgxq8j.png"));
+        lblNewLabel.setBounds(0, 12, 183, 103);
+        contentPane.add(lblNewLabel);
     }
 
     private void calcularLeiOhm() {
@@ -135,7 +147,6 @@ public class TelaLeiOhm extends JFrame {
             double tensao = 0, corrente = 0, resistencia = 0, potencia = 0;
             boolean tSet = false, cSet = false, rSet = false, pSet = false;
 
-            // Atribuir valores conhecidos
             if (u1.contains("V")) { tensao = v1; tSet = true; }
             else if (u1.contains("A")) { corrente = v1; cSet = true; }
             else if (u1.contains("Ω")) { resistencia = v1; rSet = true; }
@@ -146,7 +157,6 @@ public class TelaLeiOhm extends JFrame {
             else if (u2.contains("Ω")) { resistencia = v2; rSet = true; }
             else if (u2.contains("W")) { potencia = v2; pSet = true; }
 
-            // Lógica de cálculo (Lei de Ohm: V = R * I, P = V * I)
             if (tSet && cSet) {
                 resistencia = tensao / corrente;
                 potencia = tensao * corrente;

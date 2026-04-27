@@ -1,9 +1,12 @@
 package Conversor;
 
-//Polimorfismo do método exibir presente em conversor
+// Subclasse para a escala Mega (multiplicador 1.000.000)
 public class Mega extends Conversor {
-    public Mega(double valor) { super(valor); }
+    public Mega(double valor) { 
+        super(valor); 
+    }
+    
     public double exibir() {
-    	return 1000000.0;
+        return 1000000.0;
     }
 }

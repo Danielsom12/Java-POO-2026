@@ -2,37 +2,33 @@ package Conversor;
 
 public class Conversor {
     
-	// Atributo "valorInserido" -> o valor que o usuario digirou.;
+    // Armazena o valor bruto que o usuário digitou
     private double valorInserido; 
     
-    //Define o Construtor; inicializa o projeto com o valor digitado.
+    // Construtor: inicializa o objeto com o valor fornecido
     public Conversor (double valorInserido) { 
-    	this.valorInserido = valorInserido;
+        this.valorInserido = valorInserido;
     }
     
-  //Usamos do get seguindo a norma de criar o nome com get ao início; encapsulamento
+    // Getter: retorna o valor armazenado
     public double getValorInserido() { 
-    	return valorInserido;
+        return valorInserido;
     }
     
-  //Define o set que pode mudar o que for digitado; encapsulamento
+    // Setter: altera o valor armazenado
     public void setValorInserido(double valorInserido) { 
-    	this.valorInserido = valorInserido;
+        this.valorInserido = valorInserido;
     }
     
-	//public void selecionarGrandeza() { } isso aqui foi feito em Tela.java
-    //public void selecionarEscala() { } isso aqui foi feito em Tela.java
-    
-  //Converte para a unidade base e converte para a unidade de destino (com base nas combobox do jframe)
+    // Método de cálculo:
+    // Converte o valor inserido para a unidade base (1.0) e depois para a escala de destino
     public double converter(Conversor destino) { 
-    	double valorBase = this.getValorInserido() * this.exibir(); 
+        double valorBase = this.getValorInserido() * this.exibir(); 
         return valorBase / destino.exibir();
     }
-	
-  //Método que será usado no polimorfismo; é o fator da escala.
-	public double exibir() { 
-		return 1.0;
-	}
-}
     
- 
+    // Método que será sobrescrito pelas subclasses (Polimorfismo)
+    public double exibir() { 
+        return 1.0;
+    }
+}
