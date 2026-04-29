@@ -8,47 +8,20 @@ https://app.diagrams.net/#G1hROKAkgqtNUdFsNCblaknKJjJZTwFMMj#{%22pageId%22%3A%22
 
 https://docs.google.com/document/d/1A2wMIPhPiMmkt90xg02JmvIB3o3XdmUMnpz_CZDe1JU/edit?tab=t.0
 
-MODIFICAÇÔES:
 
-1. Limpeza de Código Duplicado (Linhas 50 a 115)
-O arquivo original tinha várias declarações de botões e campos de texto repetidas, o que causava erros de compilação (o Java não sabia qual "botão" usar).
+Contexto do projeto: 
 
-    O que foi feito: Removi as duplicatas e organizei o layout para que cada componente (campo de texto, caixa de seleção e botão) fosse único e estivesse no lugar certo da tela.
+A proposta desse projeto é a criação de uma calculadora capaz de converter de escalas comumente usadas na disciplina de Eletrônica Analógica e Digital, ao inserir o valor na escala atual e posteriormente a escala desejada. Bem como realizar o cálculo de Lei de Ohm ao inserir dois valores e suas unidades de medida.
 
-2. Proteção de Dados com Try-Catch (Linhas 118 a 133 e 175 a 179)
-Esta foi a implementação do requisito de segurança solicitado:
-Java
 
-118: try {
-119:     double v1 = Double.parseDouble(txtValorDigitado1.getText());
-120:     double v2 = Double.parseDouble(txtValorDigitado2.getText());
-...
-175: } catch (NumberFormatException ex) {
-176:     JOptionPane.showMessageDialog(this, "Erro: Entrada inválida. Use apenas números.");
-177: }
+Explicaçẽo das classes principais:
 
-    O que foi feito: O bloco try tenta transformar o texto digitado em números. Se o usuário digitar uma letra, o Java "pula" para o catch na linha 175, que exibe um alerta amigável em vez de deixar o programa travar.
+A classe Converter funciona como a classe mãe (superclasse) que centraliza a lógica global do sistema, armazenando o valor numérico base inserido pelo usuário e as regras para seleção de grandezas e escalas. Ela é responsável por gerenciar os dados brutos e preparar o terreno para a normalização das unidades, mas não realiza os cálculos matemáticos finais da Lei de Ohm nem aplica sozinha os multiplicadores específicos de cada prefixo métrico.
 
-3. Lógica da Lei de Ohm (Linhas 135 a 168)
-Esta parte não existia no código original e foi criada do zero para fazer o sistema funcionar:
-Java
+As classes Mega, Kilo, Milli (citada como MIII no diagrama) e Micro são as classes filhas que herdam as propriedades da classe principal (elas possuem relação de poliformismo com a classe principal) para tratar cada escala de forma personalizada. Elas fazem a aplicação do fator multiplicador correto (de Micro a Mega) e exibem o valor formatado para o usuário, porém não possuem autonomia para alterar as regras gerais de grandeza sem o suporte da classe mãe.
 
-149: // Lógica de cálculo (Lei de Ohm: V = R * I, P = V * I)
-150: if (tSet && cSet) { // Se o usuário deu Tensão e Corrente
-151:     resistencia = tensao / corrente;
-152:     potencia = tensao * corrente;
-153: } else if (tSet && rSet) { // Se deu Tensão e Resistência
-154:     corrente = tensao / resistencia;
-...
+A classe Calcular Ohm atua como o motor de processamento físico do software, trabalhando em conjunto com o conversor para receber os números já ajustados e aplicar as fórmulas de Tensão, Corrente e Resistência. Ela faz a execução dos cálculos complexos com precisão de quatro casas decimais, mas não faz a gestão direta da interface de entrada de dados nem a transformação inicial dos prefixos métricos, dependendo inteiramente dos valores previamente tratados pelas outras classes.
 
-    O que foi feito: Criei uma estrutura que identifica quais grandezas o usuário escolheu (Tensão, Corrente, Resistência ou Potência) e aplica a fórmula correta para descobrir os outros dois valores que faltam.
+A classe GerenciadorHistorico funciona como a memória central e o mensageiro inteligente do programa, garantindo que todas as conversões sejam anotadas em um único lugar seguro e compartilhado. Através de um sistema de "avisos", ela comunica automaticamente qualquer alteração na lista de dados para que as telas do sistema se mantenham sempre atualizadas. Ela é a guardiã da integridade das informações, sendo responsável por guardar, remover e organizar os registros em silêncio, mas sem se envolver diretamente com a aparência visual da tabela ou com as regras matemáticas de conversão.
 
-4. Formatação do Resultado (Linhas 170 a 173)
-Java
 
-170: txtAreaResultadoLeiOhm.setText(String.format(
-171:     "Resultados:\nTensão: %.4f V\nCorrente: %.4f A\nResistência: %.4f Ω\nPotência: %.4f W",
-172:     tensao, corrente, resistencia, potencia
-173: ));
-
-    O que foi feito: Configurei para que o resultado apareça de forma organizada em várias linhas e com 4 casas decimais, exatamente como pedido na sua documentação acadêmica.
