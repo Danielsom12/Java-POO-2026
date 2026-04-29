@@ -14,7 +14,7 @@ Contexto do projeto:
 A proposta desse projeto é a criação de uma calculadora capaz de converter de escalas comumente usadas na disciplina de Eletrônica Analógica e Digital, ao inserir o valor na escala atual e posteriormente a escala desejada. Bem como realizar o cálculo de Lei de Ohm ao inserir dois valores e suas unidades de medida.
 
 
-Explicaçẽo das classes principais:
+Explicação das classes principais:
 
 A classe Converter funciona como a classe mãe (superclasse) que centraliza a lógica global do sistema, armazenando o valor numérico base inserido pelo usuário e as regras para seleção de grandezas e escalas. Ela é responsável por gerenciar os dados brutos e preparar o terreno para a normalização das unidades, mas não realiza os cálculos matemáticos finais da Lei de Ohm nem aplica sozinha os multiplicadores específicos de cada prefixo métrico.
 
