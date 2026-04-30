@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JOptionPane; //importei isso aqui para poder criar aqueles modais de erro
+import java.text.DecimalFormat;//importei isso aqui para os números aparecerem em formato decimal.
 
 public class Tela extends JFrame {
 
@@ -20,11 +22,11 @@ public class Tela extends JFrame {
 	private final Color COR_BOTAO_SECUNDARIO = new Color(235, 182, 87); // #EBB657
 
 	private JPanel contentPane;
-	private JTextField txtDigiteOValor;
-	private JComboBox<String> boxEscalaOrigem;
-	private JComboBox<String> boxUnidade;
-	private JComboBox<String> boxEscalaDestino;
-	private JTextArea textAreaResultadoConversao;
+	private JTextField txtDigiteOValor; //onde o usuário digita o valor;
+	private JComboBox<String> boxEscalaOrigem;//seleção de escala do número digitado por ele
+	private JComboBox<String> boxUnidade;//só escolhe a unidade, ela vai aparecer no resultado.
+	private JComboBox<String> boxEscalaDestino;//seleção da escala que ele quer chegar
+	private JTextArea textAreaResultadoConversao;//onde vai aparecer o resultado
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
@@ -115,28 +117,29 @@ public class Tela extends JFrame {
 				try {
 					String texto = txtDigiteOValor.getText().trim();
 					if (texto.isEmpty()) {
-						JOptionPane.showMessageDialog(null, "Erro: O campo de valor está vazio.");
+						JOptionPane.showMessageDialog(null, "Erro: O campo de valor está vazio.");//modal de erro do JFrame e requisito para ele aparecer: se o valor digitado for vazio
 						return;
 					}
 
 					texto = texto.replace(",", ".");
-					double valorDigitado = Double.parseDouble(texto);
+					double valorDigitado = Double.parseDouble(texto);;//pega o valor digitado; o txtDIgite... retorna o string e o parse double transforma em double 
+
 
 					if (valorDigitado < 0) {
-						JOptionPane.showMessageDialog(null, "Erro: Insira apenas valores positivos.");
+						JOptionPane.showMessageDialog(null, "Erro: Insira apenas valores positivos.");//modal de erro do JFrame e requisito para ele aparecer: se o valor digitado for menor que 0
 						return;
 					}
 
-					String escOrigem = (String) boxEscalaOrigem.getSelectedItem();
-					String escDestino = (String) boxEscalaDestino.getSelectedItem();
+					String escOrigem = (String) boxEscalaOrigem.getSelectedItem();//pega a escala de origem; o (String) é um casting, estou dizendo para o java que é um str
+					String escDestino = (String) boxEscalaDestino.getSelectedItem();//pega a escala desejada
 					String escUnidade = (String) boxUnidade.getSelectedItem();
 
-					Conversor objOrigem = selecionarEscala(escOrigem, valorDigitado);
-					Conversor objDestino = selecionarEscala(escDestino, 0);
+					 Conversor objOrigem = selecionarEscala(escOrigem, valorDigitado); //pega o que o usuário escolheu e cria o objeto correto, new Escala(valorDigitado)
+	                    Conversor objDestino = selecionarEscala(escDestino, 0);//cria o obj na escala final como zero já que o construtor exige um double e ele não precisa do valor, só do fator já que ele precisa saber a conta que o destino usa (tipo vezes 1000) e não o nome string
 
-					double resultado = objOrigem.converter(objDestino);
+					double resultado = objOrigem.converter(objDestino);//na classe conversor ele é chamado de destino 
 
-					java.text.DecimalFormat df = new java.text.DecimalFormat("0.##########");
+					java.text.DecimalFormat df = new java.text.DecimalFormat("0.##########"); // zero o # só mostra número se precisar e o ponto é o separador. As # mostram que é até 10 casas, mas sem encher de zero
 					String resultadoFormatado = df.format(resultado);
 
 					textAreaResultadoConversao
@@ -150,7 +153,7 @@ public class Tela extends JFrame {
 					GerenciadorHistorico.getInstance().adicionar(registro);
 
 				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(null, "Erro: Entrada inválida. Use apenas números.");
+					JOptionPane.showMessageDialog(null, "Erro: Entrada inválida. Use apenas números.");//modal de erro do JFrame e requisito para ele aparecer: se o valor digitado uma String
 				}
 			}
 		});
@@ -184,15 +187,12 @@ public class Tela extends JFrame {
 		contentPane.add(lblNewLabel);
 	}
 
-	private Conversor selecionarEscala(String escOrigem, double valorDigitado) {
-		if (escOrigem.equals("Mega"))
-			return new Mega(valorDigitado);
-		if (escOrigem.equals("Kilo"))
-			return new Kilo(valorDigitado);
-		if (escOrigem.equals("Mili"))
-			return new Mili(valorDigitado);
-		if (escOrigem.equals("Micro"))
-			return new Micro(valorDigitado);
-		return new Conversor(valorDigitado);
-	}
+//aqui é o ponto central do sistema, com base no que estiver selecionado na combobox o cálculo será feito a partir disso
+private Conversor selecionarEscala(String escOrigem, double valorDigitado) {
+    if (escOrigem.equals("Mega")) return new Mega(valorDigitado); 
+    if (escOrigem.equals("Kilo")) return new Kilo(valorDigitado);
+    if (escOrigem.equals("Mili")) return new Mili(valorDigitado);
+    if (escOrigem.equals("Micro")) return new Micro(valorDigitado); //através desse construtor fica new Micro (0)
+    return new Conversor(valorDigitado); 
+}
 }
