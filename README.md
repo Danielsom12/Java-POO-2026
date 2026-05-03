@@ -9,8 +9,6 @@ https://app.diagrams.net/#G1hROKAkgqtNUdFsNCblaknKJjJZTwFMMj#{%22pageId%22%3A%22
 https://docs.google.com/document/d/1A2wMIPhPiMmkt90xg02JmvIB3o3XdmUMnpz_CZDe1JU/edit?tab=t.0
 
 
-Aqui está uma proposta de **README.md** profissional, estruturada e organizada para o seu projeto, utilizando todas as informações técnicas e o contexto que discutimos.
-
 ---
 
 # ⚡ Eletron Converter & Ohm Calculator
