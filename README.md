@@ -10,19 +10,86 @@ https://app.diagrams.net/#G1hROKAkgqtNUdFsNCblaknKJjJZTwFMMj#{%22pageId%22%3A%22
 https://docs.google.com/document/d/1A2wMIPhPiMmkt90xg02JmvIB3o3XdmUMnpz_CZDe1JU/edit?tab=t.0
 
 
-Contexto do projeto: 
+---
 
-A proposta desse projeto é a criação de uma calculadora capaz de converter de escalas comumente usadas na disciplina de Eletrônica Analógica e Digital, ao inserir o valor na escala atual e posteriormente a escala desejada. Bem como realizar o cálculo de Lei de Ohm ao inserir dois valores e suas unidades de medida.
+# ⚡ Eletron Converter & Ohm Calculator
+
+Um software em Java desenvolvido para facilitar a rotina de estudantes e profissionais de **Eletrônica Analógica e Digital**. O sistema permite a conversão rápida entre prefixos métricos (escalas) e o cálculo preciso das grandezas da **Lei de Ohm**.
+
+---
+
+## 🚀 Funcionalidades Principal
+
+* **Conversor de Escalas:** Transformação entre unidades como Mega, Kilo, Mili e Micro.
+* **Calculadora de Lei de Ohm:** Cálculo automático de Tensão (V), Corrente (A), Resistência (Ω) e Potência (W) a partir de dois valores conhecidos.
+* **Gerenciamento de Histórico:** Registro em tempo real de todas as atividades, com opção de remover itens, limpar a lista e exportar para arquivo `.txt`.
+* **Interface Adaptativa:** Design otimizado para telas grandes (1200x900) com alta legibilidade.
+
+---
+
+## 🏗️ Arquitetura do Sistema
+
+O projeto foi construído utilizando conceitos sólidos de **Programação Orientada a Objetos (POO)** e Padrões de Projeto (Design Patterns).
+
+### Diagrama de Classes (Lógica)
 
 
-Explicação das classes principais:
+### Explicação das Classes
 
-A classe Converter funciona como a classe mãe (superclasse) que centraliza a lógica global do sistema, armazenando o valor numérico base inserido pelo usuário e as regras para seleção de grandezas e escalas. Ela é responsável por gerenciar os dados brutos e preparar o terreno para a normalização das unidades, mas não realiza os cálculos matemáticos finais da Lei de Ohm nem aplica sozinha os multiplicadores específicos de cada prefixo métrico.
+#### 1. Classe `Conversor` (Superclasse)
+Funciona como a classe mãe que centraliza a lógica global do sistema. Ela armazena o valor numérico base e gerencia as regras gerais de grandezas e escalas, preparando os dados para a normalização.
 
-As classes Mega, Kilo, Milli (citada como MIII no diagrama) e Micro são as classes filhas que herdam as propriedades da classe principal (elas possuem relação de poliformismo com a classe principal) para tratar cada escala de forma personalizada. Elas fazem a aplicação do fator multiplicador correto (de Micro a Mega) e exibem o valor formatado para o usuário, porém não possuem autonomia para alterar as regras gerais de grandeza sem o suporte da classe mãe.
+#### 2. Classes de Escala (`Mega`, `Kilo`, `Mili`, `Micro`)
+São as classes filhas que herdam de `Conversor`. Utilizam **Polimorfismo** para aplicar o fator multiplicador específico de cada prefixo métrico:
+* **Mega:** $10^6$
+* **Kilo:** $10^3$
+* **Mili:** $10^{-3}$
+* **Micro:** $10^{-6}$
 
-A classe Calcular Ohm atua como o motor de processamento físico do software, trabalhando em conjunto com o conversor para receber os números já ajustados e aplicar as fórmulas de Tensão, Corrente e Resistência. Ela faz a execução dos cálculos complexos com precisão de quatro casas decimais, mas não faz a gestão direta da interface de entrada de dados nem a transformação inicial dos prefixos métricos, dependendo inteiramente dos valores previamente tratados pelas outras classes.
+#### 3. Classe `TelaLeiOhm` (Cálculo Ohm)
+Atua como o motor de processamento físico. Recebe os valores tratados e aplica as fórmulas da Lei de Ohm com precisão de quatro casas decimais.
 
-A classe GerenciadorHistorico funciona como a memória central e o mensageiro inteligente do programa, garantindo que todas as conversões sejam anotadas em um único lugar seguro e compartilhado. Através de um sistema de "avisos", ela comunica automaticamente qualquer alteração na lista de dados para que as telas do sistema se mantenham sempre atualizadas. Ela é a guardiã da integridade das informações, sendo responsável por guardar, remover e organizar os registros em silêncio, mas sem se envolver diretamente com a aparência visual da tabela ou com as regras matemáticas de conversão.
+#### 4. Classe `GerenciadorHistorico` (Singleton)
+Funciona como a memória central do programa. Utiliza o padrão **Singleton** para garantir que todas as telas compartilhem a mesma instância de dados e um sistema de **Listeners** para atualizar a interface automaticamente sempre que um registro é adicionado ou removido.
+
+---
+
+## 🎨 Identidade Visual
+
+O projeto utiliza uma paleta de cores "quente" e suave para reduzir a fadiga visual:
+
+| Elemento | Cor | Hexadecimal |
+| :--- | :--- | :--- |
+| **Fundo** | Creme | `#EBE3A5` |
+| **Campos** | Amarelo Pastel | `#F2F58E` |
+| **Botão Principal** | Ouro | `#F5CC45` |
+| **Botão Secundário** | Laranja Outono | `#EBB657` |
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+* **Linguagem:** Java 17+
+* **Biblioteca Gráfica:** Swing / AWT
+* **Gerenciamento de Tempo:** `java.time.LocalDateTime`
+* **Formatação:** `java.text.DecimalFormat`
+
+---
+
+## ⚙️ Como Executar
+
+1.  Certifique-se de ter o **JDK 17** ou superior instalado.
+2.  Clone o repositório ou baixe os arquivos fonte.
+3.  Importe o projeto em sua IDE de preferência (Eclipse, IntelliJ ou VS Code).
+4.  Execute a classe `Tela.java` (localizada no pacote `Conversor`) para iniciar a aplicação.
+
+---
+
+## 📄 Licença
+
+Este projeto foi desenvolvido para fins educacionais e acadêmicos na disciplina de Eletrônica e Programação.
+
+---
+*Desenvolvido com foco em precisão e usabilidade.*
 
 

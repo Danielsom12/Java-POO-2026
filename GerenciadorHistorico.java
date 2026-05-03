@@ -3,53 +3,61 @@ package Conversor;
 import java.util.ArrayList;
 import java.util.List;
 
-// Gerenciador de histórico usando Singleton para manter a mesma instância
+// Gerenciador de histórico usando Singleton para garantir que todas as telas usem a mesma lista
 public class GerenciadorHistorico {
-	private static GerenciadorHistorico instance;
-	private List<String> registros = new ArrayList<>();
-	private List<Runnable> listeners = new ArrayList<>();
+    // A própria instância única da classe (privada e estática)
+    private static GerenciadorHistorico instance;
+    
+    // Lista que armazena as frases das conversões realizadas
+    private List<String> registros = new ArrayList<>();
+    
+    // Lista de ações (tarefas) que devem ser executadas quando os dados mudarem
+    private List<Runnable> listeners = new ArrayList<>();
 
-	private GerenciadorHistorico() {
-	}
+    // Construtor privado: impede que outras classes criem um "new GerenciadorHistorico()"
+    private GerenciadorHistorico() {
+    }
 
-	public static GerenciadorHistorico getInstance() {
-		if (instance == null)
-			instance = new GerenciadorHistorico();
-		return instance;
-	}
+    // Método global que entrega a única instância existente (cria se não houver, retorna se já existir)
+    public static GerenciadorHistorico getInstance() {
+        if (instance == null)
+            instance = new GerenciadorHistorico();
+        return instance;
+    }
 
-	// Adiciona uma ação de "ouvinte" para atualizar a tela quando o histórico mudar
-	public void addChangeListener(Runnable listener) {
-		listeners.add(listener);
-	}
+    // Permite que uma tela se "inscreva" para ser avisada sempre que houver mudanças no histórico
+    public void addChangeListener(Runnable listener) {
+        listeners.add(listener);
+    }
 
-	// Adiciona um registro ao histórico
-	public void adicionar(String registro) {
-		registros.add(registro);
-		notifyListeners();
-	}
+    // Salva um novo texto no histórico e avisa as telas para se atualizarem
+    public void adicionar(String registro) {
+        registros.add(registro);
+        notifyListeners();
+    }
 
-	// Remove um registro específico
-	public void remover(int index) {
-		if (index >= 0 && index < registros.size()) {
-			registros.remove(index);
-			notifyListeners();
-		}
-	}
+    // Deleta um item específico da lista com base na linha selecionada
+    public void remover(int index) {
+        if (index >= 0 && index < registros.size()) {
+            registros.remove(index);
+            notifyListeners();
+        }
+    }
 
-	// Limpa todos os registros
-	public void limpar() {
-		registros.clear();
-		notifyListeners();
-	}
+    // Apaga todo o conteúdo da lista de uma vez
+    public void limpar() {
+        registros.clear();
+        notifyListeners();
+    }
 
-	// Notifica todos os ouvintes que o histórico mudou
-	private void notifyListeners() {
-		for (Runnable listener : listeners)
-			listener.run();
-	}
+    // Percorre a lista de telas inscritas e executa a atualização em cada uma delas
+    private void notifyListeners() {
+        for (Runnable listener : listeners)
+            listener.run();
+    }
 
-	public List<String> getRegistros() {
-		return registros;
-	}
+    // Retorna a lista completa de registros para ser exibida na JTable ou JList
+    public List<String> getRegistros() {
+        return registros;
+    }
 }
