@@ -1,5 +1,6 @@
 package Conversor;
 
+// Importação das bibliotecas do Swing (Interface Gráfica) e AWT (Layouts e Cores)
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.EmptyBorder;
@@ -8,78 +9,79 @@ import java.io.File;
 import java.io.PrintWriter;
 
 /**
- * Classe responsável por exibir a janela de histórico de conversões.
- * Permite visualizar, remover, limpar e salvar os registros com comentários.
+ * Classe TelaHistorico: Representa a janela que exibe os registros das conversões.
+ * Herda de JFrame para criar uma janela independente.
  */
 public class TelaHistorico extends JFrame {
     private static final long serialVersionUID = 1L;
     
-    // --- DEFINIÇÃO DA PALETA DE CORES ---
-    private final Color COR_FUNDO = new Color(235, 227, 165); // Bege/Amarelo claro
-    private final Color COR_CAMPOS = new Color(242, 245, 142); // Amarelo pastel
-    private final Color COR_BOTAO_PRINCIPAL = new Color(245, 204, 69); // Amarelo vibrante
-    private final Color COR_BOTAO_SECUNDARIO = new Color(235, 182, 87); // Laranja suave
+    // --- PALETA DE CORES PERSONALIZADA ---
+    // Definidas em constantes para facilitar a manutenção visual do projeto
+    private final Color COR_FUNDO = new Color(235, 227, 165); // Amarelo palha (Fundo)
+    private final Color COR_CAMPOS = new Color(242, 245, 142); // Amarelo claro (Campos/Tabela)
+    private final Color COR_BOTAO_PRINCIPAL = new Color(245, 204, 69); // Amarelo Ouro (Destaque)
+    private final Color COR_BOTAO_SECUNDARIO = new Color(235, 182, 87); // Laranja pastel (Outros botões)
 
-    // Componentes principais para manipulação de dados na tela
-    private JTable table;
-    private DefaultTableModel model;
+    // Componentes da Tabela
+    private JTable table;              // O componente visual da tabela
+    private DefaultTableModel model;   // O "cérebro" da tabela (onde os dados ficam guardados)
 
     public TelaHistorico() {
-        // Configurações básicas da Janela
+        // Configurações básicas da janela (Título, Tamanho e Centralização)
         setTitle("Histórico de Conversões");
-        setBounds(100, 100, 1200, 900); // Tamanho grande para facilitar a leitura
-        setLocationRelativeTo(null); // Centraliza a tela ao abrir
+        setBounds(100, 100, 1200, 900);
+        setLocationRelativeTo(null);
         
-        // Painel Principal com Layout de bordas e espaçamentos (padding)
-        JPanel contentPane = new JPanel(new BorderLayout(20, 20));
+        // ContentPane: O painel principal que segura todos os outros componentes
+        JPanel contentPane = new JPanel(new BorderLayout(20, 20)); // BorderLayout organiza em Norte, Sul, Leste, Oeste e Centro
         contentPane.setBackground(COR_FUNDO);
-        contentPane.setBorder(new EmptyBorder(30, 30, 30, 30));
+        contentPane.setBorder(new EmptyBorder(30, 30, 30, 30)); // Margem interna de 30px
         setContentPane(contentPane);
 
-        // --- CONFIGURAÇÃO DAS FONTES ---
+        // --- DEFINIÇÃO DE FONTES ---
         Font fonteTitulo = new Font("Yu Gothic UI", Font.BOLD | Font.ITALIC, 45);
         Font fonteTabela = new Font("Monospaced", Font.BOLD, 16);
         Font fonteBotoes = new Font("Tahoma", Font.BOLD, 18);
 
-        // Título superior
+        // Rótulo do Título (Parte Superior - NORTH)
         JLabel lblTitulo = new JLabel("Histórico de Atividades");
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         lblTitulo.setFont(fonteTitulo);
         contentPane.add(lblTitulo, BorderLayout.NORTH);
 
-        // --- CONFIGURAÇÃO DA TABELA (COLUNAS E EDIÇÃO) ---
-        // Criamos o modelo de dados com duas colunas
+        // --- CONFIGURAÇÃO DA TABELA ---
+        // Criamos o modelo com duas colunas específicas
         model = new DefaultTableModel(new Object[] { "Conversão Realizada", "Comentários do Usuário" }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Apenas a coluna 1 (Comentários) pode ser editada clicando diretamente na tabela
+                // Bloqueia a edição da coluna 0 (Conversão), mas permite editar a 1 (Comentários)
                 return column == 1; 
             }
         };
 
         table = new JTable(model);
         table.setFont(fonteTabela);
-        table.setRowHeight(45); // Altura da linha para melhor visualização
+        table.setRowHeight(45); // Linhas mais altas para facilitar o clique e leitura
         table.setBackground(COR_CAMPOS);
-        table.setSelectionBackground(COR_BOTAO_PRINCIPAL); // Cor ao selecionar linha
+        table.setSelectionBackground(COR_BOTAO_PRINCIPAL); // Cor de destaque ao clicar em uma linha
         table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 16)); // Estilo do cabeçalho
         
-        // Define proporções: Coluna 0 é maior que a coluna de Comentários
+        // Ajuste manual da largura das colunas (60% para descrição, 40% para comentário)
         table.getColumnModel().getColumn(0).setPreferredWidth(600);
         table.getColumnModel().getColumn(1).setPreferredWidth(400);
 
-        // ScrollPane: Adiciona barra de rolagem caso a lista fique muito grande
+        // ScrollPane: Necessário para que a tabela tenha barras de rolagem se houver muitos dados
         JScrollPane scrollPane = new JScrollPane(table);
         contentPane.add(scrollPane, BorderLayout.CENTER);
 
-        // LISTENER: Faz a tela "ouvir" mudanças no Singleton e atualizar automaticamente
+        // Singleton: Registra esta tela para ouvir mudanças no GerenciadorHistorico
         GerenciadorHistorico.getInstance().addChangeListener(this::atualizarTabela);
 
-        // --- PAINEL DE BOTÕES (RODAPÉ) ---
-        // Organiza 5 botões em uma linha com 15px de espaço entre eles
+        // --- PAINEL DE BOTÕES (Parte Inferior - SOUTH) ---
+        // GridLayout(1 linha, 5 colunas, 15px de espaço entre botões)
         JPanel painelBotoes = new JPanel(new GridLayout(1, 5, 15, 0)); 
         painelBotoes.setBackground(COR_FUNDO);
-        painelBotoes.setPreferredSize(new Dimension(0, 80));
+        painelBotoes.setPreferredSize(new Dimension(0, 80)); // Altura fixa de 80px para os botões
 
         JButton btnAdicionarComentario = new JButton("Add Comentário");
         JButton btnExcluir = new JButton("Remover");
@@ -87,92 +89,89 @@ public class TelaHistorico extends JFrame {
         JButton btnSalvar = new JButton("Salvar .txt"); 
         JButton btnVoltar = new JButton("Voltar");
 
-        // Loop para aplicar estilo padrão em todos os botões rapidamente
+        // Loop para padronizar o estilo de todos os botões de uma vez
         for (JButton btn : new JButton[]{btnAdicionarComentario, btnExcluir, btnLimpar, btnSalvar, btnVoltar}) {
             btn.setFont(fonteBotoes);
             btn.setBackground(COR_BOTAO_SECUNDARIO);
-            btn.setFocusPainted(false); // Remove aquele quadrado de foco feio
+            btn.setFocusPainted(false); // Remove o contorno de foco ao clicar
             painelBotoes.add(btn);
         }
-        btnSalvar.setBackground(COR_BOTAO_PRINCIPAL); // Destaca o botão de salvar
+        btnSalvar.setBackground(COR_BOTAO_PRINCIPAL); // Botão salvar ganha cor de destaque
 
-        // --- LÓGICA DE AÇÕES DOS BOTÕES ---
+        // --- LÓGICA DAS AÇÕES (LISTENERS) ---
 
-        // AÇÃO: Adicionar Comentário via Janela de Digitação
+        // Ação: Abre um balão (Input) para digitar comentário na linha selecionada
         btnAdicionarComentario.addActionListener(e -> {
             int row = table.getSelectedRow();
             if (row != -1) {
-                // Abre um popup para o usuário digitar
-                String comentario = JOptionPane.showInputDialog(this, "Escreva um comentário para esta conversão:", 
+                String comentario = JOptionPane.showInputDialog(this, "Escreva um comentário:", 
                                      model.getValueAt(row, 1));
                 if (comentario != null) {
-                    model.setValueAt(comentario, row, 1); // Atualiza visualmente a tabela
+                    model.setValueAt(comentario, row, 1);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Selecione uma linha para comentar.");
+                JOptionPane.showMessageDialog(this, "Selecione uma linha primeiro!");
             }
         });
 
-        // AÇÃO: Excluir linha selecionada
+        // Ação: Remove a linha selecionada do banco de dados (Singleton)
         btnExcluir.addActionListener(e -> {
             int row = table.getSelectedRow();
             if (row != -1) {
-                GerenciadorHistorico.getInstance().remover(row); // Remove no Singleton
+                GerenciadorHistorico.getInstance().remover(row);
             } else {
                 JOptionPane.showMessageDialog(this, "Selecione uma linha para remover.");
             }
         });
 
-        // AÇÃO: Limpar todo o histórico
+        // Ação: Apaga todo o histórico após confirmação
         btnLimpar.addActionListener(e -> {
-            if (JOptionPane.showConfirmDialog(this, "Limpar histórico?", "Aviso", 0) == 0) {
+            if (JOptionPane.showConfirmDialog(this, "Deseja apagar TUDO?", "Aviso", 0) == 0) {
                 GerenciadorHistorico.getInstance().limpar();
             }
         });
 
-        // AÇÃO: Exportar para arquivo de texto (.txt)
+        // Ação: Exporta os dados da tabela para um arquivo .txt físico
         btnSalvar.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 File arquivo = fileChooser.getSelectedFile();
-                // Força a extensão .txt se o usuário esquecer
+                // Garante que o arquivo tenha extensão .txt
                 if (!arquivo.getName().endsWith(".txt")) arquivo = new File(arquivo.getAbsolutePath() + ".txt");
 
                 try (PrintWriter writer = new PrintWriter(arquivo)) {
-                    writer.println("--- RELATÓRIO DE CONVERSÕES ---");
-                    // Percorre todas as linhas da tabela para salvar
+                    writer.println("--- HISTÓRICO DE CONVERSÕES ---");
                     for (int i = 0; i < model.getRowCount(); i++) {
-                        writer.println("Conversão: " + model.getValueAt(i, 0));
-                        writer.println("Comentário: " + model.getValueAt(i, 1));
+                        writer.println("ITEM: " + model.getValueAt(i, 0));
+                        writer.println("OBS: " + model.getValueAt(i, 1));
                         writer.println("-------------------------------");
                     }
-                    JOptionPane.showMessageDialog(this, "Exportado com sucesso!");
+                    JOptionPane.showMessageDialog(this, "Salvo com sucesso!");
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Erro ao salvar: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(this, "Erro ao salvar arquivo.");
                 }
             }
         });
 
-        // AÇÃO: Fecha a janela atual
+        // Ação: Fecha apenas a janela de histórico
         btnVoltar.addActionListener(e -> dispose());
 
-        // Adiciona os botões na parte de baixo e inicializa os dados
         contentPane.add(painelBotoes, BorderLayout.SOUTH);
+        
+        // Carrega os dados iniciais ao abrir a tela
         atualizarTabela();
     }
 
     /**
-     * Método que sincroniza a JTable com os dados que estão no Singleton GerenciadorHistorico.
+     * Sincroniza os dados da JTable com a lista presente no GerenciadorHistorico.
      */
     private void atualizarTabela() {
-        // Garante que a atualização da interface ocorra na Thread correta (EDT)
+        // SwingUtilities.invokeLater garante que a interface não trave durante a atualização
         SwingUtilities.invokeLater(() -> {
-            model.setRowCount(0); // Limpa a tabela para reconstruí-la
-            
-            // Pega a lista de strings do Singleton e coloca na primeira coluna
-            // A segunda coluna (Comentários) inicia vazia para o usuário preencher
+            model.setRowCount(0); // Limpa a tabela atual
+            // Percorre os registros salvos no Singleton e adiciona no modelo
             for (String item : GerenciadorHistorico.getInstance().getRegistros()) {
-                model.addRow(new Object[] { item, "" }); 
+                model.addRow(new Object[] { item, "" }); // Coluna 0 = Dado, Coluna 1 = Comentário Vazio
             }
         });
     }
